@@ -68,21 +68,21 @@ A comprehensive web application for preparing OCR training data specifically for
 | `PORT` | Server port | 5000 | No |
 | `CORS_ORIGINS` | Allowed CORS origins (comma-separated) | * | No |
 
-## ✨ Key Features
+##  Key Features
 
-### 🖼️ Advanced Image Management
+###  Advanced Image Management
 - **Multi-upload with preview**: Upload multiple images with instant preview
 - **Smart processing**: 7 types of image enhancement (grayscale, CLAHE, thresholding, deskewing, morphology, denoising, sharpening)
 - **Real-time display**: Processed images appear immediately in the interface
 - **Batch processing**: Process all images with consistent settings
 
-### 🎨 Comprehensive Annotation Tools
+###  Comprehensive Annotation Tools
 - **Standard annotation**: Bounding boxes and polygons for text regions
-- **Missing regions** ⭐: Unique feature for documenting damaged/illegible areas in manuscripts
+- **Missing regions** : Unique feature for documenting damaged/illegible areas in manuscripts
 - **Musnad keyboard**: Virtual keyboard for Ancient South Arabian script input
 - **Auto-save**: Automatic saving of annotations
 
-### 📦 Flexible Export System
+###  Flexible Export System
 - **4 export formats**: JSON, CSV, YOLO, COCO
 - **Smart export**: 
   - JSON/CSV: Includes all data including missing regions (for archival)
@@ -90,13 +90,13 @@ A comprehensive web application for preparing OCR training data specifically for
 - **Data splitting**: Full export or train/val/test split
 - **Auto-documentation**: README file generated with each export
 
-### 🏭 Production Ready
+###  Production Ready
 - **Docker support**: Easy deployment with docker-compose
 - **Security**: Production-grade security settings
 - **Logging**: Comprehensive operation logging
 - **Environment variables**: Flexible configuration
 
-## 🏺 Missing Regions (Unique Feature)
+##  Missing Regions (Unique Feature)
 
 ### What are Missing Regions?
 Special annotations for damaged, eroded, or illegible areas in historical manuscripts.
@@ -110,29 +110,29 @@ Special annotations for damaged, eroded, or illegible areas in historical manusc
 - **JSON/CSV**: Includes all missing region data (for archival/research)
 - **YOLO/COCO**: Automatically excludes missing regions (for AI training)
 
-## 🎯 Use Cases
+##  Use Cases
 
-### 🏛️ Academic Archival
+###  Academic Archival
 - **Format**: JSON with images included
 - **Purpose**: Preserve and document historical manuscripts
 - **Features**: Complete documentation including damage assessment
 
-### 🤖 AI Model Training
+###  AI Model Training
 - **Format**: YOLO/COCO with data splitting
 - **Purpose**: Create high-quality training datasets
 - **Features**: Clean data optimized for machine learning
 
-### 📊 Research Analysis
+###  Research Analysis
 - **Format**: CSV with all fields
 - **Purpose**: Statistical analysis of writing patterns and damage
 - **Features**: Comprehensive data for research studies
 
-### 🌐 Collaborative Projects
+###  Collaborative Projects
 - **Format**: Multiple formats as needed
 - **Purpose**: Share data with researchers worldwide
 - **Features**: Standardized annotation format
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 # Test image processing
@@ -145,7 +145,7 @@ python test_missing_regions.py
 python test_new_upload.py
 ```
 
-## 📚 Documentation
+##  Documentation
 
 - `WORKFLOW_GUIDE.md` - Optimal workflow guide
 - `PROJECT_IMPROVEMENTS.md` - Applied improvements
@@ -225,13 +225,13 @@ Preferred communication style: Simple, everyday language.
 
 ---
 
-## 🏆 Project Status
+##  Project Status
 
-**✅ COMPLETE AND PRODUCTION-READY**
+** COMPLETE AND PRODUCTION-READY**
 
 This tool has been transformed from a basic application into a comprehensive, professional platform for OCR data preparation with:
 
-### 🌟 Unique Features
+###  Unique Features
 - ✅ **Complete Arabic interface** with RTL support
 - ✅ **Missing regions documentation** for historical manuscripts
 - ✅ **Smart export system** that adapts to use case
@@ -245,47 +245,47 @@ This tool has been transformed from a basic application into a comprehensive, pr
 - **Testing**: Available ✅
 - **Production Readiness**: Complete ✅
 
-### 🎯 Ready For
+###  Ready For
 - ✅ **Development**: Works smoothly
 - ✅ **Production**: Security and performance settings
 - ✅ **Deployment**: Docker and environment variables
 - ✅ **Maintenance**: Clean, documented code
 
-## 📄 License
+##  License
 
 MIT License - Can be used in academic and commercial projects
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please read the contribution guide before submitting a Pull Request.
 
-## 📞 Support
+##  Support
 
 For technical support or questions, please open an Issue in the repository.
 
-## 🎊 Latest Updates (2025)
+##  Latest Updates (2025)
 
-### 🏺 New: Missing Regions Feature
+###  New: Missing Regions Feature
 - **World's first OCR tool** with comprehensive missing regions documentation
 - **Smart character count estimation** for damaged areas (1-1000 chars)
 - **7 damage types**: damaged, eroded, illegible, faded, torn, stained, other
 - **Visual distinction**: Red dashed borders for missing regions
 - **Conditional export**: Includes/excludes based on use case
 
-### 🔧 Enhanced Image Processing
+###  Enhanced Image Processing
 - **Fixed display issues**: Processed images now appear immediately
 - **7 processing types**: Grayscale, CLAHE, thresholding, deskewing, morphology, denoising, sharpening
 - **Real-time preview**: Live processing preview before applying
 - **Batch processing**: Process multiple images with consistent settings
 
-### 📦 Smart Export System
+###  Smart Export System
 - **Conditional missing regions**: 
   - JSON/CSV: Includes all data (for archival)
   - YOLO/COCO: Excludes missing regions (for training)
 - **Auto-documentation**: README generated with each export
 - **Data splitting**: Train/validation/test splits for ML training
 
-## 🧪 Quick Test
+##  Quick Test
 
 ```bash
 # Test the new missing regions feature
@@ -298,7 +298,7 @@ python test_processing.py
 python app.py
 ```
 
-## 📚 Complete Documentation
+##  Complete Documentation
 
 - `MISSING_REGIONS_GUIDE.md` - Complete guide for missing regions
 - `PROCESSING_FIXES.md` - Image processing improvements
