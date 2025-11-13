@@ -1,0 +1,450 @@
+/* Custom styles for Musnad OCR Tool */
+
+/* Variables for consistent theming */
+:root {
+    --musnad-primary: #3b82f6;
+    --musnad-secondary: #6b7280;
+    --musnad-success: #10b981;
+    --musnad-danger: #ef4444;
+    --musnad-warning: #f59e0b;
+    --border-radius: 0.5rem;
+    --transition: all 0.2s ease-in-out;
+}
+
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card enhancements */
+.card {
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Workspace tabs */
+.workspace-tab {
+    border: none !important;
+    border-bottom: 3px solid transparent !important;
+    transition: var(--transition);
+}
+
+.workspace-tab.active {
+    background-color: transparent !important;
+    border-bottom-color: var(--musnad-primary) !important;
+    color: var(--musnad-primary) !important;
+}
+
+.workspace-tab:hover:not(.active) {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Project cards */
+.project-card {
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.project-card:hover {
+    border-color: var(--musnad-primary);
+    transform: translateY(-2px);
+}
+
+/* Image list items */
+.image-list-item {
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.image-list-item:hover {
+    background-color: var(--bs-light) !important;
+}
+
+.image-list-item.active {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border-color: var(--musnad-primary) !important;
+}
+
+/* Status badges */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+}
+
+.status-unprocessed {
+    background-color: var(--bs-secondary);
+    color: white;
+}
+
+.status-processed {
+    background-color: var(--bs-warning);
+    color: white;
+}
+
+.status-annotated {
+    background-color: var(--bs-info);
+    color: white;
+}
+
+.status-completed {
+    background-color: var(--bs-success);
+    color: white;
+}
+
+/* Canvas container */
+#konvaContainer {
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--border-radius);
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+/* Musnad keyboard styles */
+.musnad-keyboard {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.musnad-char {
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--border-radius);
+    background:  rgba(4, 97, 248, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    position: relative;
+    cursor: pointer;
+}
+
+.musnad-char:hover {
+    border-color: var(--musnad-primary);
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.musnad-char .character {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Keyboard categories */
+.keyboard-category {
+    padding: 0.5rem;
+    margin: 0.25rem;
+    border-radius: var(--border-radius);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.keyboard-category.active {
+    background-color: var(--musnad-primary);
+    color: white;
+}
+
+.keyboard-category:hover:not(.active) {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: var(--musnad-primary);
+}
+
+/* Processing controls */
+.processing-control {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--border-radius);
+    background:#0e1525;
+}
+
+.processing-control h6 {
+    color: var(--musnad-secondary);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+/* Image preview */
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress indicators */
+.progress-ring {
+    width: 60px;
+    height: 60px;
+}
+
+.progress-ring-circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+/* Statistics cards */
+.stat-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--musnad-primary), #1d4ed8);
+    color: white;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Auto-flow indicators */
+.auto-flow-indicator {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1000;
+    background: #9da6bb;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid var(--musnad-primary);
+}
+
+.auto-flow-indicator.processing {
+    border-left-color: var(--musnad-warning);
+}
+
+.auto-flow-indicator.annotation {
+    border-left-color: var(--musnad-info);
+}
+
+.auto-flow-indicator.completed {
+    border-left-color: var(--musnad-success);
+}
+
+/* Loading animations */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-lg-3 {
+        margin-bottom: 2rem;
+    }
+    
+    #konvaContainer {
+        height: 400px !important;
+    }
+    
+    .musnad-char {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .musnad-char .character {
+        font-size: 1.25rem;
+    }
+}
+
+/* RTL enhancements */
+[dir="rtl"] .modal-header .btn-close {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+[dir="rtl"] .toast-header .btn-close {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Tooltip styling */
+.tooltip {
+    font-size: 0.875rem;
+}
+
+.tooltip-inner {
+    background-color: var(--bs-dark);
+    border-radius: var(--border-radius);
+}
+
+/* Custom scrollbars */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bs-secondary) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--bs-secondary);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bs-dark);
+}
+
+/* Export preview */
+.export-preview {
+    background: linear-gradient(135deg, #606163, #e9ecef);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+.export-stat {
+    text-align: center;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background: #565454;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.export-stat i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--musnad-primary);
+}
+
+/* Settings sections */
+.settings-section {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--border-radius);
+    background: #c1c1c100;
+}
+
+.settings-section h6 {
+    color: var(--musnad-primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Canvas info bar */
+.canvas-info {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: var(--bs-muted);
+}
+
+/* Annotation properties */
+.annotation-properties {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.sticky-preview {
+    position: sticky;
+    top: 20px;   /* المسافة من أعلى الشاشة */
+    z-index: 10; /* للتأكد أنه فوق العناصر الأخرى */
+}
+.sticky-annotation {
+    position: sticky;
+    top: 20px;   /* المسافة من أعلى الشاشة */
+    z-index: 10; /* للتأكد أنه فوق العناصر الأخرى */
+}
+/* Success animations */
+@keyframes checkmark {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    20% {
+        height: 0;
+        width: 7px;
+        opacity: 1;
+    }
+    40% {
+        height: 20px;
+        width: 7px;
+        opacity: 1;
+    }
+    100% {
+        height: 20px;
+        width: 7px;
+        opacity: 1;
+    }
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: var(--musnad-success);
+    stroke-miterlimit: 10;
+    animation: checkmark 0.6s ease-in-out;
+    box-shadow: inset 0px 0px 0px var(--musnad-success);
+}
+
+/* Image status overlay */
+.image-status-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}

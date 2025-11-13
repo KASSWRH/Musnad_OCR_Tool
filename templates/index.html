@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة إعداد بيانات المسند للذكاء الاصطناعي</title>
+    <!-- داخل <head> -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS with Replit theme -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Konva.js for canvas -->
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/missing-regions.css">
+    <link rel="stylesheet" href="/static/css/zoom-rotation.css">
+    <link rel="stylesheet" href="/static/css/review.css">
+    <link rel="stylesheet" href="/static/css/i18n.css">
+</head>
+<body>
+    <div id="app" class="min-vh-100">
+        <!-- Header -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="#" data-i18n="app.title">
+                    <i class="fas fa-scroll me-2"></i>
+                    أداة إعداد بيانات المسند
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <!-- Language Switcher -->
+                    <div class="nav-item dropdown language-switcher me-3">
+                        <button class="nav-link dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe me-1"></i>
+                            <span id="currentLanguage">العربية</span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            <li>
+                                <a class="dropdown-item language-option" href="#" data-lang="ar">
+                                    <span class="language-flag flag-ar"></span>
+                                    العربية
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item language-option" href="#" data-lang="en">
+                                    <span class="language-flag flag-en"></span>
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="navbar-text" id="projectTitle" data-i18n="app.welcome">
+                        مرحباً بك في أداة إعداد بيانات المسند
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Project Selection Screen -->
+        <div id="projectSelection" class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- Header -->
+                    <div class="text-center mb-5">
+                        <h1 class="display-4 mb-3">
+                            <i class="fas fa-scroll text-primary me-3"></i>
+                            <span data-i18n="app.title">أداة إعداد بيانات المسند</span>
+                        </h1>
+                        <p class="lead text-muted" data-i18n="app.description">
+                            أداة شاملة لمعالجة وتوسيم صور النصوص المسندية القديمة
+                        </p>
+                    </div>
+
+                    <!-- Project Actions -->
+                    <div class="row mb-4">
+                        <div class="col text-end">
+                            <button id="newProjectBtn" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>
+                                <span data-i18n="project.new">مشروع جديد</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Projects List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-folder me-2"></i>
+                                <span data-i18n="project.available">المشاريع المتاحة</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="projectsList" class="row g-3">
+                                <!-- Projects will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workspace -->
+        <div id="workspace" class="d-none">
+            <!-- Workspace Tabs -->
+            <div class="border-bottom bg-light">
+                <div class="container-fluid">
+                    <nav class="nav nav-tabs">
+                        <button class="nav-link workspace-tab active" data-tab="processing">
+                            <i class="fas fa-cogs me-2"></i>
+                            <span data-i18n="tab.processing">معالجة الصور</span>
+                        </button>
+                        <button class="nav-link workspace-tab" data-tab="annotation">
+                            <i class="fas fa-tags me-2"></i>
+                            <span data-i18n="tab.annotation">التوسيم والتحرير</span>
+                        </button>
+                        <button class="nav-link workspace-tab" data-tab="review">
+                            <i class="fas fa-eye me-2"></i>
+                            <span data-i18n="tab.review">استعراض التوسيمات</span>
+                        </button>
+                        <button class="nav-link workspace-tab" data-tab="export">
+                            <i class="fas fa-download me-2"></i>
+                            <span data-i18n="tab.export">التصدير</span>
+                        </button>
+                        <button class="nav-link workspace-tab" data-tab="settings">
+                            <i class="fas fa-cog me-2"></i>
+                            <span data-i18n="tab.settings">الإعدادات</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="container-fluid py-4">
+                <!-- Processing Tab -->
+                <div id="processingTab" class="tab-content active">
+                    <div class="row">
+                        <!-- Processing Controls -->
+                        <div class="col-lg-3">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">تحكم في المعالجة</h6>
+                                </div>
+                                <div class="card-body" id="processingControls">
+                                    <!-- Processing controls will be loaded here -->
+                                </div>
+                            </div>
+
+                            <!-- Image List -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">الصور المتاحة للمعالجة</h6>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div id="processingImagesList" class="list-group list-group-flush">
+                                        <!-- Images list will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div class="col-lg-9">
+                            <div class="card sticky-preview">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">معاينة الصورة</h6>
+                                    <div class="btn-group" role="group">
+                                        <button id="processCurrentBtn" class="btn btn-sm btn-success">
+                                            <i class="fas fa-play me-1"></i>
+                                            معالج
+                                        </button>
+                                        <button id="nextUnprocessedBtn" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-forward me-1"></i>
+                                            التالي
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="imagePreviewContainer" class="text-center">
+                                        <div class="text-muted py-5">
+                                            <i class="fas fa-image fa-3x mb-3 d-block"></i>
+                                            اختر صورة من القائمة للمعاينة
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Annotation Tab -->
+                <div id="annotationTab" class="tab-content">
+                    <div class="row">
+                        <!-- Annotation Controls -->
+                        <div class="col-lg-3">
+                            <!-- Canvas Tools -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">أدوات التوسيم</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button id="selectModeBtn" class="btn btn-outline-primary active">
+                                            <i class="fas fa-mouse-pointer me-2"></i>
+                                            تحديد
+                                        </button>
+                                        <button id="drawModeBtn" class="btn btn-outline-success">
+                                            <i class="fas fa-vector-square me-2"></i>
+                                            رسم مربع
+                                        </button>
+                                    </div>
+
+                                    <!-- Zoom Controls -->
+                                    <div class="mb-3">
+                                        <label class="form-label">التحكم في التكبير</label>
+                                        <div class="btn-group w-100 mb-2" role="group">
+                                            <button id="zoomInBtn" class="btn btn-outline-secondary" title="تكبير (+)">
+                                                <i class="fas fa-search-plus"></i>
+                                            </button>
+                                            <button id="zoomOutBtn" class="btn btn-outline-secondary" title="تصغير (-)">
+                                                <i class="fas fa-search-minus"></i>
+                                            </button>
+                                            <button id="fitToScreenBtn" class="btn btn-outline-secondary" title="ملائمة الشاشة (F)">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <button id="resetZoomBtn" class="btn btn-outline-secondary" title="إعادة تعيين (0)">
+                                                <i class="fas fa-undo"></i>
+                                            </button>
+                                        </div>
+                                        <div class="text-center">
+                                            <small class="text-muted">التكبير: <span id="zoomLevel">100%</span></small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Rotation Controls -->
+                                    <div class="mb-3">
+                                        <label class="form-label">التحكم في التدوير</label>
+                                        <div class="btn-group w-100 mb-2" role="group">
+                                            <button id="rotateLeftBtn" class="btn btn-outline-info" title="دوران عكس عقارب الساعة (Shift+R)">
+                                                <i class="fas fa-undo"></i>
+                                            </button>
+                                            <button id="rotateRightBtn" class="btn btn-outline-info" title="دوران مع عقارب الساعة (R)">
+                                                <i class="fas fa-redo"></i>
+                                            </button>
+                                            <button id="resetRotationBtn" class="btn btn-outline-warning" title="إعادة تعيين الدوران">
+                                                <i class="fas fa-compass"></i>
+                                            </button>
+                                        </div>
+                                        <div class="d-grid mt-2">
+                                            <button id="resetAllBtn" class="btn btn-outline-danger btn-sm" title="إعادة تعيين الكل">
+                                                <i class="fas fa-refresh me-1"></i>
+                                                إعادة تعيين الكل
+                                            </button>
+                                        </div>
+                                        <div class="text-center mb-2">
+                                            <small class="text-muted">الزاوية: <span id="rotationAngle">0°</span></small>
+                                        </div>
+                                        <div class="input-group input-group-sm">
+                                            <input type="range" id="rotationSlider" class="form-range" min="0" max="360" value="0" step="1">
+                                            <input type="number" id="rotationInput" class="form-control" min="0" max="360" value="0" placeholder="درجة">
+                                        </div>
+                                    </div>
+
+                                    <!-- Annotation Type -->
+                                    <div class="mb-3">
+                                        <label class="form-label">نوع التوسيم</label>
+                                        <select id="annotationType" class="form-select">
+                                            <option value="text" selected>نص</option>
+                                            <option value="missing_region">منطقة مفقودة</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Annotation Properties -->
+                                    <div class="mb-3">
+                                        <label class="form-label">مستوى التوسيم</label>
+                                        <select id="annotationLevel" class="form-select">
+                                            <option value="character">حرف</option>
+                                            <option value="word" selected>كلمة</option>
+                                            <option value="line">سطر</option>
+                                            <option value="paragraph">فقرة</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3" id="textDirectionGroup">
+                                        <label class="form-label">اتجاه النص</label>
+                                        <select id="textDirection" class="form-select">
+                                            <option value="rtl" selected>من اليمين لليسار</option>
+                                            <option value="ltr">من اليسار لليمين</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Missing Region Properties (hidden by default) -->
+                                    <div id="missingRegionProperties" class="mb-3" style="display: none;">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">خصائص المنطقة المفقودة</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Expected Character Count -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">عدد الأحرف المتوقعة</label>
+                                                    <input type="number" id="maxChars" class="form-control" min="1" max="1000" value="5" placeholder="تقدير عدد الأحرف المفقودة">
+                                                    <div class="form-text">تقدير تقريبي لعدد الأحرف التي كانت في هذه المنطقة</div>
+                                                </div>
+
+                                                <!-- Damage Reason -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">سبب الفقدان</label>
+                                                    <select id="damageReason" class="form-select">
+                                                        <option value="damaged">تلف</option>
+                                                        <option value="eroded">تآكل</option>
+                                                        <option value="illegible">غير مقروء</option>
+                                                        <option value="faded">باهت</option>
+                                                        <option value="torn">ممزق</option>
+                                                        <option value="stained">ملطخ</option>
+                                                        <option value="other">أخرى</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Additional Notes -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">ملاحظات إضافية</label>
+                                                    <textarea id="missingRegionNotes" class="form-control" rows="3" placeholder="وصف تفصيلي لحالة المنطقة المفقودة"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">مستوى الثقة</label>
+                                        <input type="range" id="confidenceSlider" class="form-range" min="0" max="100" value="90">
+                                        <small class="text-muted">90%</small>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button id="deleteAnnotationBtn" class="btn btn-outline-danger" disabled>
+                                            <i class="fas fa-trash me-2"></i>
+                                            حذف التوسيم
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Label Input -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">إدخال النص</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="labelInput" class="form-label">النص المسندي</label>
+                                        <textarea id="labelInput" class="form-control" rows="3" 
+                                                placeholder="ادخل النص المسندي هنا" dir="rtl"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Musnad Keyboard -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">لوحة المفاتيح المسندية</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="musnadKeyboardContainer">
+                                        <!-- Musnad keyboard will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Area -->
+                        <div class="col-lg-9">
+                            <div class="card sticky-annotation">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0">منطقة التوسيم</h6>
+                                    <div class="btn-group" role="group">
+                                        <button id="saveAnnotationsBtn" class="btn btn-sm btn-success">
+                                            <i class="fas fa-save me-1"></i>
+                                            حفظ
+                                        </button>
+                                        <button id="markCompleteBtn" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-check me-1"></i>
+                                            مكتمل
+                                        </button>
+                                        <button id="nextForAnnotationBtn" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-forward me-1"></i>
+                                            التالي
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div id="konvaContainer" style="width: 100%; height: 600px;">
+                                        <!-- Konva canvas will be initialized here -->
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <small class="text-muted" id="canvasInfo">
+                                                <!-- Canvas information will be shown here -->
+                                            </small>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <small class="text-muted">
+                                                <strong>اختصارات:</strong>
+                                                <span class="d-inline-block ms-2">
+                                                    <kbd>+/-</kbd> زوم |
+                                                    <kbd>R</kbd> دوران |
+                                                    <kbd>F</kbd> ملائمة |
+                                                    <kbd>0</kbd> إعادة تعيين
+                                                </span>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Tab -->
+                <div id="reviewTab" class="tab-content">
+                    <div class="row">
+                        <!-- Review Controls -->
+                        <div class="col-lg-3">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0" data-i18n="review.filters">فلاتر الاستعراض</h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Level Filter -->
+                                    <div class="mb-3">
+                                        <label class="form-label" data-i18n="review.level_filter">مستوى التوسيم</label>
+                                        <select id="reviewLevelFilter" class="form-select">
+                                            <option value="all" data-i18n="review.all_levels">جميع المستويات</option>
+                                            <option value="character" data-i18n="annotation.level.character">حرف</option>
+                                            <option value="word" data-i18n="annotation.level.word">كلمة</option>
+                                            <option value="line" data-i18n="annotation.level.line">سطر</option>
+                                            <option value="paragraph" data-i18n="annotation.level.paragraph">فقرة</option>
+                                            <option value="missing_region" data-i18n="review.missing">مفقود</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Image Status Filter -->
+                                    <div class="mb-3">
+                                        <label class="form-label" data-i18n="review.status_filter">حالة الصورة</label>
+                                        <select id="reviewStatusFilter" class="form-select">
+                                            <option value="annotated" data-i18n="review.status.annotated">مرسّمة</option>
+                                            <option value="completed" data-i18n="review.status.completed">مكتملة</option>
+                                            <option value="all" data-i18n="review.status.all">جميع الحالات</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Apply Filter Button -->
+                                    <div class="d-grid">
+                                        <button id="applyReviewFilter" class="btn btn-primary">
+                                            <i class="fas fa-filter me-2"></i>
+                                            <span data-i18n="review.apply_filter">تطبيق الفلتر</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Controls -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0" data-i18n="review.navigation">التنقل</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-6">
+                                            <button id="prevReviewImage" class="btn btn-outline-secondary w-100" disabled>
+                                                <i class="fas fa-chevron-right me-1"></i>
+                                                <span data-i18n="review.previous">السابق</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button id="nextReviewImage" class="btn btn-outline-secondary w-100" disabled>
+                                                <span data-i18n="review.next">التالي</span>
+                                                <i class="fas fa-chevron-left ms-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <small class="text-muted">
+                                            <span id="reviewImageCounter">0 / 0</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Image Info -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0" data-i18n="review.image_info">معلومات الصورة</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="reviewImageInfo">
+                                        <p class="text-muted text-center" data-i18n="review.select_image">اختر صورة للاستعراض</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Canvas -->
+                        <div class="col-lg-9">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="card-title mb-0" data-i18n="review.title">استعراض التوسيمات</h6>
+                                    <div class="btn-group btn-group-sm">
+                                        <button id="reviewZoomIn" class="btn btn-outline-secondary" data-i18n-title="annotation.zoom_in" title="تكبير">
+                                            <i class="fas fa-search-plus"></i>
+                                        </button>
+                                        <button id="reviewZoomOut" class="btn btn-outline-secondary" data-i18n-title="annotation.zoom_out" title="تصغير">
+                                            <i class="fas fa-search-minus"></i>
+                                        </button>
+                                        <button id="reviewFitScreen" class="btn btn-outline-secondary" data-i18n-title="annotation.fit_screen" title="ملائمة الشاشة">
+                                            <i class="fas fa-expand"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div id="reviewCanvasContainer" class="position-relative bg-light" style="height: 600px; overflow: hidden;">
+                                        <div id="reviewCanvas" style="width: 100%; height: 100%;"></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div id="reviewCanvasInfo" class="text-muted text-center" data-i18n="review.ready">
+                                        جاهز للاستعراض
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Tab -->
+                <div id="exportTab" class="tab-content">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">تصدير المشروع</h5>
+                                </div>
+                                <div class="card-body" id="exportContent">
+                                    <!-- Export Options -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">تنسيق التصدير</label>
+                                            <select id="exportFormat" class="form-select">
+                                                <option value="json">JSON - تصدير شامل</option>
+                                                <option value="csv">CSV - جدول بيانات</option>
+                                                <option value="yolo">YOLO - تدريب نماذج</option>
+                                                <option value="coco">COCO - معيار Microsoft</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check form-switch mt-4">
+                                                <input class="form-check-input" type="checkbox" id="includeImages" checked>
+                                                <label class="form-check-label" for="includeImages">
+                                                    تضمين الصور في التصدير
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- YOLO Split Options -->
+                                    <div id="yoloSplitOptions" class="mb-4" style="display: none;">
+                                        <div class="card border-info">
+                                            <div class="card-header bg-info text-white">
+                                                <h6 class="mb-0">خيارات تقسيم البيانات (YOLO)</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="splitMode" id="fullExport" value="full" checked>
+                                                        <label class="form-check-label" for="fullExport">
+                                                            <strong>تصدير كامل</strong> - جميع الصور في مجلد التدريب
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="splitMode" id="splitExport" value="split">
+                                                        <label class="form-check-label" for="splitExport">
+                                                            <strong>تصدير مع التقسيم</strong> - توزيع البيانات على مجلدات متعددة
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="splitRatios" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">التدريب (Train)</label>
+                                                            <div class="input-group">
+                                                                <input type="number" id="trainRatio" class="form-control" value="70" min="0" max="100">
+                                                                <span class="input-group-text">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">التحقق (Validation)</label>
+                                                            <div class="input-group">
+                                                                <input type="number" id="valRatio" class="form-control" value="20" min="0" max="100">
+                                                                <span class="input-group-text">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">الاختبار (Test)</label>
+                                                            <div class="input-group">
+                                                                <input type="number" id="testRatio" class="form-control" value="10" min="0" max="100">
+                                                                <span class="input-group-text">%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <small class="text-muted">المجموع: <span id="totalRatio">100</span>%</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Export Preview -->
+                                    <div class="mb-4">
+                                        <div class="card border-secondary">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">معاينة التصدير</h6>
+                                            </div>
+                                            <div class="card-body" id="exportPreview">
+                                                <div class="text-center text-muted">
+                                                    <i class="fas fa-info-circle fa-2x mb-2"></i>
+                                                    <p>اختر تنسيق التصدير لعرض المعاينة</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Export Actions -->
+                                    <div class="d-grid gap-2">
+                                        <button id="startExportBtn" class="btn btn-primary btn-lg" disabled>
+                                            <i class="fas fa-download me-2"></i>
+                                            بدء التصدير
+                                        </button>
+                                        <div id="exportProgress" style="display: none;">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                     role="progressbar" style="width: 0%"></div>
+                                            </div>
+                                            <small class="text-muted mt-1">جاري التصدير...</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settingsTab" class="tab-content">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">إعدادات المشروع</h5>
+                                </div>
+                                <div class="card-body" id="settingsContent">
+                                    <!-- Auto-Flow Settings -->
+                                    <div class="mb-4">
+                                        <h6 class="fw-bold mb-3" data-i18n="settings.auto_flow">إعدادات التدفق التلقائي</h6>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" data-i18n="settings.auto_flow_mode">نمط التدفق التلقائي</label>
+                                            <select id="autoFlowMode" class="form-select">
+                                                <option value="manual" data-i18n="settings.mode.manual">يدوي</option>
+                                                <option value="process_then_next" data-i18n="settings.mode.process_then_next">معالجة ثم الصورة التالية</option>
+                                                <option value="process_then_annotate" data-i18n="settings.mode.process_then_annotate">معالجة ثم التوسيم</option>
+                                                <option value="process_all_then_annotate" data-i18n="settings.mode.process_all_then_annotate">معالجة الكل ثم التوسيم</option>
+                                            </select>
+                                            <div class="form-text" data-i18n="settings.auto_flow_help">
+                                                اختر كيفية انتقال التطبيق بين المعالجة والتوسيم تلقائياً
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="autoFlowDescription" class="alert alert-info">
+                                            <small id="autoFlowDescText">اختر نمط التدفق لرؤية الوصف</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Language Settings -->
+                                    <div class="mb-4">
+                                        <h6 class="fw-bold mb-3" data-i18n="settings.language_settings">إعدادات اللغة</h6>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" data-i18n="settings.interface_language">لغة الواجهة</label>
+                                            <select id="interfaceLanguage" class="form-select">
+                                                <option value="ar">العربية</option>
+                                                <option value="en">English</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Auto-Save Settings -->
+                                    <div class="mb-4">
+                                        <h6 class="fw-bold mb-3" data-i18n="settings.auto_save_settings">إعدادات الحفظ التلقائي</h6>
+                                        
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="enableAutoSave" checked>
+                                            <label class="form-check-label" for="enableAutoSave" data-i18n="settings.enable_auto_save">
+                                                تفعيل الحفظ التلقائي
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" data-i18n="settings.auto_save_interval">فترة الحفظ التلقائي (ثانية)</label>
+                                            <input type="number" id="autoSaveInterval" class="form-control" value="30" min="10" max="300">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Save Settings Button -->
+                                    <div class="d-grid">
+                                        <button id="saveSettingsBtn" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            <span data-i18n="settings.save">حفظ الإعدادات</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Project Modal -->
+        <div class="modal fade" id="projectModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">مشروع جديد</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="projectForm">
+                            <div class="mb-3">
+                                <label for="projectName" class="form-label">اسم المشروع</label>
+                                <input type="text" id="projectName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectDescription" class="form-label">وصف المشروع</label>
+                                <textarea id="projectDescription" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectImages" class="form-label">رفع الصور (اختياري)</label>
+                                <input type="file" id="projectImages" class="form-control" 
+                                       multiple accept="image/*"
+                                       title="اختر الصور لرفعها مع المشروع"
+                                       onchange="app.previewSelectedImages(this)">
+                                <div class="form-text">يمكنك اختيار عدة صور في نفس الوقت. الأنواع المدعومة: JPG, PNG, TIFF, WebP, BMP</div>
+                                <div id="imagePreview" class="mt-2" style="display: none;">
+                                    <small class="text-muted">الصور المختارة:</small>
+                                    <div id="imageList" class="d-flex flex-wrap gap-2 mt-1"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="projectOutputType" class="form-label">نوع الإخراج</label>
+                                <select id="projectOutputType" class="form-select">
+                                    <option value="json">JSON</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="yolo">YOLO</option>
+                                    <option value="coco">COCO</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancelProjectBtn" class="btn btn-secondary" data-bs-dismiss="modal">
+                            إلغاء
+                        </button>
+                        <button type="button" id="createProjectBtn" class="btn btn-primary">
+                            إنشاء المشروع
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Modal -->
+        <div class="modal fade" id="progressModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">جاري المعالجة...</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="progress mb-3">
+                            <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div id="progressText" class="text-center">
+                            جاري البدء...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+        <div id="notificationToast" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">إشعار</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                <!-- Toast message will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="/static/js/i18n.js"></script>
+    <script src="/static/js/i18n-dynamic.js"></script>
+    <script src="/static/js/auto-flow.js"></script>
+    <script src="/static/js/canvas-handler.js"></script>
+    <script src="/static/js/review-handler.js"></script>
+    <script src="/static/js/musnad-keyboard.js"></script>
+    <script src="/static/js/image-processor.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

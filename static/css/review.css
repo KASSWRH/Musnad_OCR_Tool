@@ -1,0 +1,253 @@
+/* Review Tab Styles */
+
+/* Review Canvas Container */
+#reviewCanvasContainer {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#reviewCanvas {
+    cursor: grab;
+}
+
+#reviewCanvas:active {
+    cursor: grabbing;
+}
+
+/* Review Controls */
+.review-controls {
+    background: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 1rem;
+}
+
+/* Filter Controls */
+.filter-section {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Navigation Controls */
+.navigation-controls .btn {
+    transition: all 0.2s ease;
+}
+
+.navigation-controls .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navigation-controls .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Image Counter */
+.image-counter {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+/* Image Info Card */
+.image-info-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.image-info-card .badge {
+    font-size: 0.75rem;
+    margin: 0.125rem;
+}
+
+/* Annotation Level Colors */
+.level-character {
+    color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.level-word {
+    color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.level-line {
+    color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.level-paragraph {
+    color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+
+.level-missing {
+    color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+/* Zoom Controls */
+.zoom-controls .btn {
+    border-radius: 0;
+}
+
+.zoom-controls .btn:first-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.zoom-controls .btn:last-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+/* Canvas Info Footer */
+.canvas-info-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.875rem;
+    color: #6c757d;
+    padding: 0.5rem 1rem;
+}
+
+/* Loading State */
+.review-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: #6c757d;
+}
+
+.review-loading .spinner-border {
+    margin-left: 0.5rem;
+}
+
+/* Empty State */
+.review-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.review-empty i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    #reviewCanvasContainer {
+        height: 400px !important;
+    }
+    
+    .review-controls {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #reviewCanvasContainer {
+        height: 300px !important;
+    }
+    
+    .navigation-controls .btn {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+    }
+    
+    .zoom-controls .btn {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Animation for smooth transitions */
+.review-transition {
+    transition: all 0.3s ease;
+}
+
+/* Annotation highlight effects */
+.annotation-highlight {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Filter badge styles */
+.filter-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    margin: 0.125rem;
+}
+
+.filter-badge.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.filter-badge.inactive {
+    background-color: #e9ecef;
+    color: #6c757d;
+}
+
+/* Tooltip styles for canvas elements */
+.konva-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Custom scrollbar for info panels */
+.review-info-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.review-info-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.review-info-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.review-info-scroll::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.review-info-scroll::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

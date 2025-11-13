@@ -1,0 +1,105 @@
+/* Zoom and Rotation Controls Styles */
+
+/* Enhanced button styles */
+.btn-group .btn {
+    transition: all 0.2s ease;
+}
+
+.btn-group .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Zoom level display */
+#zoomLevel {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Rotation angle display */
+#rotationAngle {
+    font-weight: bold;
+    color: #17a2b8;
+}
+
+/* Rotation slider styling */
+#rotationSlider {
+    margin: 0.5rem 0;
+}
+
+/* Rotation input styling */
+#rotationInput {
+    max-width: 80px;
+    text-align: center;
+}
+
+/* Control group spacing */
+.mb-3 .btn-group {
+    margin-bottom: 0.5rem;
+}
+
+/* Tooltip styling for buttons */
+.btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Canvas info styling */
+#canvasInfo {
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    #rotationInput {
+        max-width: 60px;
+    }
+}
+
+/* Animation for rotation */
+.konva-content {
+    transition: transform 0.3s ease;
+}
+
+/* Visual feedback for active controls */
+.btn-outline-secondary:hover,
+.btn-outline-info:hover,
+.btn-outline-warning:hover {
+    transform: scale(1.05);
+}
+
+/* Input group styling */
+.input-group-sm .form-range {
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+/* Control labels */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Status displays */
+.text-center small {
+    display: block;
+    margin: 0.25rem 0;
+}
