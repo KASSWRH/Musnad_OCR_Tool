@@ -10,7 +10,7 @@ A comprehensive web application for preparing OCR training data specifically for
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   [git clone <repository-url>](https://github.com/KASSWRH/Musnad_OCR_Tool.git)
    cd MusnadOCRTool
    ```
 
